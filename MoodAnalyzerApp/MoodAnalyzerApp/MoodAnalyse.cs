@@ -8,8 +8,9 @@ namespace MoodAnalyzerApp
 {
     public class MoodAnalyse
     {
-        public string message;
+        public MoodAnalyse() { }
 
+        private string message;
         /// <summary>
         /// Parameterised Constructor.
         /// </summary>
@@ -21,13 +22,26 @@ namespace MoodAnalyzerApp
 
         public string AnalyseMood()
         {
-            if (this.message.Contains("Sad"))
+            try
             {
-                return "SAD";
+                if (this.message.Equals(string.Empty))
+                {
+                    throw new MoodAnalysisException(MoodAnalysisException.ExceptionType.Empty_Message, "Mood should not be Empty");
+                }
+
+
+                if (this.message.Contains("Sad"))
+                {
+                    return "SAD";
+                }
+                else
+                {
+                    return "HAPPY";
+                }
             }
-            else
+            catch (NullReferenceException)
             {
-                return "HAPPY";
+                throw new MoodAnalysisException(MoodAnalysisException.ExceptionType.NULL_MESSAGE, "Mood should not be null");
             }
         }
     }
